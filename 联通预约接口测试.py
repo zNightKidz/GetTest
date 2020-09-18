@@ -25,7 +25,7 @@ def GetAllFacility():
     print("起始位置为：",foo)
     assert foo != -1,"接口异常！"
 
-
+#下载代码到本地
 
 if __name__=="__main__":
     GetAllFacility()
