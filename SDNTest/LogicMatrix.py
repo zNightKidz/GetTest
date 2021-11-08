@@ -1,13 +1,14 @@
 from selenium import webdriver
 from time import sleep
 from selenium.webdriver import ActionChains
+from selenium.webdriver.common.by import By
 
 options = webdriver.ChromeOptions()
 
 # 使用headless无界面浏览器模式
-#增加无界面选项
-#options.add_argument('--headless')
-#如果不加这个选项，有时定位会出现问题
+# 增加无界面选项
+# options.add_argument('--headless')
+# 如果不加这个选项，有时定位会出现问题
 options.add_argument('--disable-gpu')
 
 browser = webdriver.Chrome(options=options)
@@ -32,40 +33,43 @@ sleep(5)
 browser.close()
 '''
 
-#登陆豆瓣
+# 登陆豆瓣
 mainurl = "https://www.douban.com/"
 doubanuser = "1123525567@qq.com"
 doubanpwd = "1175233452zjb"
 browser.get(mainurl)
 sleep(3)
-#切换到iframe
+# 切换到iframe
 
-iframe = browser.find_elements_by_tag_name("iframe")[0]
+# iframe = browser.find_elements_by_tag_name("iframe")[0]
+iframe = browser.find_element(By.TAG_NAME, "iframe")[0]
 browser.switch_to.frame(iframe)
 sleep(1)
-denglu = browser.find_element_by_class_name("account-tab-account")
+# denglu = browser.find_element_by_class_name("account-tab-account")
+denglu = browser.find_element(By.CLASS_NAME, "account-tab-account")
 ActionChains(browser).click(denglu).perform()
 sleep(3)
-myname = browser.find_element_by_id("username")
+#myname = browser.find_element_by_id("username")
+myname = browser.find_element(By.ID,"username")
 myname.clear()
 myname.send_keys(doubanuser)
 
 sleep(1)
-sss = browser.find_element_by_xpath("/html/body/div[1]/div[2]/div[1]/div[4]/div/input")
+#sss = browser.find_element_by_xpath("/html/body/div[1]/div[2]/div[1]/div[4]/div/input")
+sss = browser.find_element(By.XPATH,"/html/body/div[1]/div[2]/div[1]/div[4]/div/input")
 sss.clear()
 sss.send_keys(doubanpwd)
 sleep(1)
-ActionChains(browser).click(browser.find_element_by_xpath("/html/body/div[1]/div[2]/div[1]/div[5]/a")).perform()
+#ActionChains(browser).click(browser.find_element_by_xpath("/html/body/div[1]/div[2]/div[1]/div[5]/a")).perform()
+ActionChains(browser).click(browser.find_element(By.XPATH,"/html/body/div[1]/div[2]/div[1]/div[5]/a")).perform()
 sleep(1)
-#切换iframe
+# 切换iframe
 browser.switch_to.frame("tcaptcha_iframe")
 
-pintu = browser.find_element_by_id("tcaptcha_drag_thumb")
-#pintu = browser.find_element_by_xpath("/html/body/div/div[3]/div[2]/div[2]/div[2]/div[1]")
+#pintu = browser.find_element_by_id("tcaptcha_drag_thumb")
+pintu = browser.find_element(By.ID,"tcaptcha_drag_thumb")
 action = ActionChains(browser)
 action.click_and_hold(pintu)
-action.move_by_offset(213,0)
+action.move_by_offset(213, 0)
 action.perform()
 sleep(1)
-
-
