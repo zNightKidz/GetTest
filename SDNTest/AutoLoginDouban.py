@@ -1,7 +1,10 @@
+import time
+
 from selenium import webdriver
 from time import sleep
 from selenium.webdriver import ActionChains
-
+import pprint
+import json
 options = webdriver.ChromeOptions()
 
 # 使用headless无界面浏览器模式
@@ -31,7 +34,7 @@ loginbutton.click()
 sleep(5)
 browser.close()
 '''
-
+'''
 #登陆豆瓣
 mainurl = "https://www.douban.com/"
 doubanuser = "1123525567@qq.com"
@@ -67,6 +70,43 @@ action.click_and_hold(pintu)
 action.move_by_offset(213,0)
 action.perform()
 sleep(1)
-
+'''
 #TODO cookie登陆豆瓣
 #TODO 切换iframe后判定元素是否加载unitest
+mainurl = 'https://www.douban.com/'
+
+#browser.get(mainurl)
+#cur_cookies = browser.get_cookies()
+
+#获取cookis，并保存为json格式文件
+# print("cur_cookies类型是：",type(cur_cookies))
+# print("cookie的长度是：",len(cur_cookies))
+#print("所有cookies：",cur_cookies)
+# print("第一个cookie:",cur_cookies[0])
+#print("第2个cookie:",cur_cookies[1])
+# print("第3个cookie:",cur_cookies[2])
+# print("第4个cookie:",cur_cookies[3])
+# jsoncookies = json.dumps(cur_cookies[1])
+# with open("mycookie.json",'w') as f:
+#     f.write(jsoncookies)
+
+
+#读取本地json格式的cookie，实现免登陆
+browser.get(mainurl)
+cookies_file_path = "mycookie.json"
+with open(cookies_file_path,"r") as f:
+    cookies_str = f.readline()
+    cookies_dict = json.loads(cookies_str)
+browser.delete_all_cookies()
+for cookie in cookies_dict:
+
+    if cookie == 'expiry':
+
+    browser.add_cookie(cookie)
+    # print(cookie)
+
+
+time.sleep(5)
+browser.refresh()
+sleep(5)
+browser.quit()
